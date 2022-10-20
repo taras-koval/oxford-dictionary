@@ -17,19 +17,14 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'index')]
-    public function index(SearchesRepository $repository): Response
+    public function index(OxfordDictionary $dictionary, SearchesRepository $repository): Response
     {
         $topTags = $this->cache->get('topTags', fn() => $repository->getTopTags());
-
+    
+        // $entries = $dictionary->entries($word);
+    
         return $this->render('index.html.twig', [
             'topTags' => $topTags
         ]);
-    
-    #[Route('/{word}', name: 'index')]
-    public function index(string $word, OxfordDictionary $dictionary): Response
-    {
-        // $entries = $dictionary->entries($word);
-        
-        return $this->render('index.php.twig');
     }
 }
