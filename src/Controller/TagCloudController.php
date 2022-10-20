@@ -17,7 +17,7 @@ class TagCloudController extends AbstractController
      * @return Response
      * @throws InvalidArgumentException
      */
-    #[Route('/tag-cloud', name: 'tag-cloud')]
+    #[Route('/tag_cloud', name: 'tag_cloud')]
     public function getTopTagsPage(SearchesRepository $repository): Response
     {
         $topTags = $repository->getTopTags();
