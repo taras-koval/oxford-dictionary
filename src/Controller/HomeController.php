@@ -2,23 +2,26 @@
 
 namespace App\Controller;
 
+use App\Service\OxfordDictionary\OxfordDictionary;
+use App\Service\OxfordDictionary\OxfordDictionaryException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-
     /**
-     * Just to render something at the main page.
-     *
-     * @return Response
+     * @throws OxfordDictionaryException
      */
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(OxfordDictionary $dictionary): Response
     {
-        return $this->render(
-            'index.php.twig'
-        );
+        $entries = $dictionary->entries('apple');
+        
+        foreach ($entries as $entry) {
+            dump($entry->toArray());
+        }
+        
+        return $this->render('index.php.twig');
     }
 }
