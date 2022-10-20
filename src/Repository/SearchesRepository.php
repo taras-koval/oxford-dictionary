@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Searches;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Cache\InvalidArgumentException;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @extends ServiceEntityRepository<Searches>
@@ -16,8 +19,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SearchesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private CacheInterface $myCachePool;
+
+    public function __construct(ManagerRegistry $registry, CacheInterface $topTagsCache)
     {
+        $this->myCachePool = $topTagsCache;
         parent::__construct($registry, Searches::class);
     }
 
@@ -37,6 +43,24 @@ class SearchesRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return Searches[] Returns an array of Searches objects
+     * @throws InvalidArgumentException
+     */
+    public function getTopTags(): array
+    {
+        return $this->myCachePool->get('topTags', function (ItemInterface $item) {
+            return (array)$this
+                ->createQueryBuilder('p')
+                ->select('p.word', 'p.cnt')
+                ->orderBy('p.cnt', 'DESC')
+                ->setMaxResults(20)
+                ->getQuery()
+                ->getResult();
+        });
+
     }
 
 //    /**
