@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <style>
+        .btn-toolbar .btn {
+            margin: 5px;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 btn-toolbar">
+                {% for Tag in topTags %}
+                        <a href="/search/{{ Tag.word }}" class="btn btn-outline-primary btn-sm mr-1">
+                            <span>{{ Tag.word }}
+                                <sup>{{ Tag.cnt }}</sup>
+                            </span>
+                        </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
