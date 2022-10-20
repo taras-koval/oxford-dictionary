@@ -20,14 +20,12 @@ final class Version20221019183756 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('
-CREATE TABLE searches (
+        $this->addSql('CREATE TABLE searches (
     id INT AUTO_INCREMENT NOT NULL, 
     word VARCHAR(255) NOT NULL, 
     cnt INT NOT NULL, 
-    PRIMARY KEY(id)
-                       ) 
-                       DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+    PRIMARY KEY(id))DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE INDEX searched_words ON epam_test.searches(word);');
     }
 
     public function down(Schema $schema): void
