@@ -17,12 +17,12 @@ class TagCloudController extends AbstractController
      * @return Response
      * @throws InvalidArgumentException
      */
-    #[Route('/TagCloud', name: 'TagCloud')]
+    #[Route('/tag-cloud', name: 'tag-cloud')]
     public function getTopTagsPage(SearchesRepository $repository): Response
     {
         $topTags = $repository->getTopTags();
 
-        return $this->render('TagCloud.php.twig', [
+        return $this->render('tag_cloud.php.twig', [
             'topTags' => $topTags,
         ]);
     }
