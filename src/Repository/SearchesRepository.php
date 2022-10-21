@@ -27,64 +27,23 @@ class SearchesRepository extends ServiceEntityRepository
         parent::__construct($registry, Searches::class);
     }
 
-    public function save(Searches $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Searches $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
     /**
      * @return Searches[] Returns an array of Searches objects
      * @throws InvalidArgumentException
      */
     public function getTopTags(): array
     {
-        return $this->myCachePool->get('topTags', function (ItemInterface $item) {
-            return (array)$this
-                ->createQueryBuilder('p')
-                ->select('p.word', 'p.cnt')
-                ->orderBy('p.cnt', 'DESC')
-                ->setMaxResults(20)
-                ->getQuery()
-                ->getResult();
-        });
-
+        return $this->myCachePool->get(
+            'topTags',
+            function (ItemInterface $item) {
+                return (array)$this
+                    ->createQueryBuilder('p')
+                    ->select('p.word', 'p.cnt')
+                    ->orderBy('p.cnt', 'DESC')
+                    ->setMaxResults(20)
+                    ->getQuery()
+                    ->getResult();
+            }
+        );
     }
-
-//    /**
-//     * @return Searches[] Returns an array of Searches objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Searches
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
