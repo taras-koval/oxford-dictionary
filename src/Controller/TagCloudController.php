@@ -40,7 +40,7 @@ class TagCloudController extends AbstractController
         );
 
         return $this->render(
-            'tag_cloud.php.twig',
+            'tag_cloud.html.twig',
             [
                 'topTags' => $topTags,
             ]
