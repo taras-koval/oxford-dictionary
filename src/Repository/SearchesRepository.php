@@ -19,31 +19,23 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class SearchesRepository extends ServiceEntityRepository
 {
-    private CacheInterface $myCachePool;
 
-    public function __construct(ManagerRegistry $registry, CacheInterface $topTagsCache)
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->myCachePool = $topTagsCache;
         parent::__construct($registry, Searches::class);
     }
 
     /**
      * @return Searches[] Returns an array of Searches objects
-     * @throws InvalidArgumentException
      */
     public function getTopTags(): array
     {
-        return $this->myCachePool->get(
-            'topTags',
-            function (ItemInterface $item) {
-                return (array)$this
+        return (array)$this
                     ->createQueryBuilder('p')
                     ->select('p.word', 'p.cnt')
                     ->orderBy('p.cnt', 'DESC')
                     ->setMaxResults(20)
                     ->getQuery()
                     ->getResult();
-            }
-        );
     }
 }
