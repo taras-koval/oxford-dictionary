@@ -21,7 +21,7 @@ class Entry
         ];
     }
     
-    public function addDefinition($definition): static
+    public function addDefinition(?string $definition): self
     {
         if (empty($definition)) {
             return $this;
@@ -34,7 +34,7 @@ class Entry
         return $this;
     }
     
-    public function addPronunciation($link): static
+    public function addPronunciation(?string $link): self
     {
         if (empty($link)) {
             return $this;

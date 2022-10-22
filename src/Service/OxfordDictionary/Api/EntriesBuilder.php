@@ -6,22 +6,15 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntriesBuilder
 {
-    private array $data;
-    
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
-    
     /**
      * @return Entry[]
      */
-    public function build() : array
+    public function build(array $data) : array
     {
         $entries = [];
     
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $results = $propertyAccessor->getValue($this->data, '[results]') ?? [];
+        $results = $propertyAccessor->getValue($data, '[results]') ?? [];
         
         foreach ($results as $item) {
             $entries[] = $this->buildEntry($item);

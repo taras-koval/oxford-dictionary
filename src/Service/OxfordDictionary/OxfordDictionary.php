@@ -4,16 +4,18 @@ namespace App\Service\OxfordDictionary;
 
 use App\Service\OxfordDictionary\Api\EntriesBuilder;
 use App\Service\OxfordDictionary\Api\Entry;
-use App\Service\OxfordDictionary\Client\ClientException;
 use App\Service\OxfordDictionary\Client\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 
 class OxfordDictionary
 {
     private ClientInterface $client;
+    private EntriesBuilder $entriesBuilder;
     
-    public function __construct(ClientInterface $client)
+    public function __construct(ClientInterface $client, EntriesBuilder $entriesBuilder)
     {
         $this->client = $client;
+        $this->entriesBuilder = $entriesBuilder;
     }
     
     /**
@@ -24,8 +26,8 @@ class OxfordDictionary
     {
         try {
             $response = $this->client->get("entries/$lang/$word?fields=definitions%2Cpronunciations&strictMatch=false");
-            return (new EntriesBuilder($response))->build();
-        } catch (ClientException $e) {
+            return $this->entriesBuilder->build($response);
+        } catch (GuzzleException $e) {
             if ($e->getCode() == '404') {
                 return [];
             }
