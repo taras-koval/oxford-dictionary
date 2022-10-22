@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\SearchesRepository;
 use Psr\Cache\CacheItemInterface;
+use App\Service\OxfordDictionary\OxfordDictionary;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +16,6 @@ class HomeController extends AbstractController
     {
     }
 
-    /**
-     * Just to render something at the main page.
-     *
-     * @param SearchesRepository $repository
-     * @return Response
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
     #[Route('/', name: 'index')]
     public function index(SearchesRepository $repository): Response
     {
@@ -30,5 +24,12 @@ class HomeController extends AbstractController
         return $this->render('index.html.twig', [
             'topTags' => $topTags
         ]);
+    
+    #[Route('/{word}', name: 'index')]
+    public function index(string $word, OxfordDictionary $dictionary): Response
+    {
+        // $entries = $dictionary->entries($word);
+        
+        return $this->render('index.php.twig');
     }
 }

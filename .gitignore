@@ -10,3 +10,9 @@
 ###< symfony/framework-bundle ###
 
 .idea
+composer.lock
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
