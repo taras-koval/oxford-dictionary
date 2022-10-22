@@ -25,7 +25,7 @@ final class Version20221019183756 extends AbstractMigration
     word VARCHAR(255) NOT NULL, 
     cnt INT NOT NULL, 
     PRIMARY KEY(id))DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE INDEX searched_words ON epam_test.searches(word);');
+        $this->addSql('CREATE INDEX searched_words ON searches(word);');
     }
 
     public function down(Schema $schema): void

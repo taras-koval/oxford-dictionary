@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <main class="container">
+        <form class="input-group mt-5" action="{{ path('search') }}">
+            <input type="search" id="search" name="q" class="form-control" placeholder="Search definition..." required/>
+            <button class="btn btn-outline-primary">Search</button>
+        </form>
+        {% include 'blocks/_tag_cloud.html.twig' %}
+    </main>
+{% endblock %}
