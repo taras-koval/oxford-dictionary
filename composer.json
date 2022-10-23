@@ -21,6 +21,7 @@
         "symfony/property-access": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.1.*",
         "twig/twig": "^3.0"
     },
