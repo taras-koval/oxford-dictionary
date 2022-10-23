@@ -47,4 +47,11 @@ class Searches
 
         return $this;
     }
+
+    public function incrementCnt(): self
+    {
+        $this->cnt = $this->cnt + 1;
+
+        return $this;
+    }
 }

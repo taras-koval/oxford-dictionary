@@ -5,9 +5,6 @@ namespace App\Repository;
 use App\Entity\Searches;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Psr\Cache\InvalidArgumentException;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @extends ServiceEntityRepository<Searches>
@@ -19,7 +16,6 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class SearchesRepository extends ServiceEntityRepository
 {
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Searches::class);
@@ -31,11 +27,49 @@ class SearchesRepository extends ServiceEntityRepository
     public function getTopTags(): array
     {
         return (array)$this
-                    ->createQueryBuilder('p')
-                    ->select('p.word', 'p.cnt')
-                    ->orderBy('p.cnt', 'DESC')
-                    ->setMaxResults(20)
-                    ->getQuery()
-                    ->getResult();
+            ->createQueryBuilder('p')
+            ->select('p.word', 'p.cnt')
+            ->orderBy('p.cnt', 'DESC')
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find word in database by name
+     *
+     * @param string $word
+     * @return Searches|null
+     */
+    public function findTag(string $word): ?Searches
+    {
+        return $this->findOneBy(['word' => $word]);
+    }
+
+    /**
+     * Add a new word to database
+     *
+     * @param string $word
+     */
+    public function createTag(string $word)
+    {
+        $entityManager = $this->getEntityManager();
+        $search = new Searches();
+        $search->setWord($word);
+        $search->setCnt(1);
+        $entityManager->persist($search);
+        $entityManager->flush();
+    }
+
+    /**
+     * Increment count of word
+     *
+     * @param Searches $search
+     */
+    public function incrementCount(Searches $search)
+    {
+        $entityManager = $this->getEntityManager();
+        $search->incrementCnt();
+        $entityManager->flush();
     }
 }
