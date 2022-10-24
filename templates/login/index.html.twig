@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <h1 class="h3 mb-3 font-weight-normal text-center">
+                Sign in
+            </h1>
+            {% if error %}
+                <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }} Please try again</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="alert alert-info text-center">
+                    You are logged in as {{ app.user.userIdentifier }}, <br><a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+
+            {% else %}
+                <form action="{{ path('app_login') }}" method="post">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="email" class="form-control" id="username" name="_username" placeholder="Email"/>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <input type="password" class="form-control" id="password" name="_password" placeholder="Password"/>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-block btn-outline-primary col-md-12">
+                        Sign in
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
