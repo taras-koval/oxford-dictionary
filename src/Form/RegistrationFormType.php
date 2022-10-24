@@ -25,6 +25,11 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Name'
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a name',
+                    ]),
+                ],
             ])
             ->add('email', TextType::class, [
                 'label' => false,
@@ -32,6 +37,11 @@ class RegistrationFormType extends AbstractType
                     'autocomplete' => 'email',
                     'class' => 'form-control',
                     'placeholder' => 'Email'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter an email',
+                    ]),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
