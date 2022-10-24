@@ -2,11 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Searches;
 use App\Repository\SearchesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class SearchesService
 {
-    public function __construct(private SearchesRepository $repository)
+    public function __construct(private EntityManagerInterface $entityManager, private SearchesRepository $repository)
     {
     }
 
@@ -19,9 +21,34 @@ class SearchesService
 
         $search = $this->repository->findTag($word);
         if ($search == null) {
-            $this->repository->createTag($word);
+            $this->createTag($word);
         } else {
-            $this->repository->incrementCount($search);
+            $this->incrementCount($search);
         }
+    }
+
+    /**
+     * Add a new word to database
+     *
+     * @param string $word
+     */
+    public function createTag(string $word)
+    {
+        $search = (new Searches())
+            ->setWord($word)
+            ->setCnt(1);
+        $this->entityManager->persist($search);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Increment count of word
+     *
+     * @param Searches $search
+     */
+    public function incrementCount(Searches $search)
+    {
+        $search->incrementCnt();
+        $this->entityManager->flush();
     }
 }

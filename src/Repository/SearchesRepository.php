@@ -45,31 +45,4 @@ class SearchesRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['word' => $word]);
     }
-
-    /**
-     * Add a new word to database
-     *
-     * @param string $word
-     */
-    public function createTag(string $word)
-    {
-        $entityManager = $this->getEntityManager();
-        $search = new Searches();
-        $search->setWord($word);
-        $search->setCnt(1);
-        $entityManager->persist($search);
-        $entityManager->flush();
-    }
-
-    /**
-     * Increment count of word
-     *
-     * @param Searches $search
-     */
-    public function incrementCount(Searches $search)
-    {
-        $entityManager = $this->getEntityManager();
-        $search->incrementCnt();
-        $entityManager->flush();
-    }
 }
