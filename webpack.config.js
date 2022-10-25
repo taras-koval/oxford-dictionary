@@ -8,9 +8,6 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore
     // directory where compiled assets will be stored
-    .addAliases({
-        'jquery': path.join(__dirname, 'node_modules/jquery/src/jquery')
-    })
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
@@ -33,7 +30,7 @@ Encore
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
-    //.enableSingleRuntimeChunk()
+    .enableSingleRuntimeChunk()
 
     /*
      * FEATURE CONFIG
