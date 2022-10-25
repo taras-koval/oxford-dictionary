@@ -15,22 +15,25 @@ class SearchController extends AbstractController
     /**
      * Search for results and render page
      *
-     * @param SearchesService $service
-     * @param OxfordDictionary $dictionary
-     * @param Request $request
-     * @return Response
      * @throws OxfordDictionaryException
      */
     #[Route('/search', name: 'search')]
-    public function search(SearchesService $service, OxfordDictionary $dictionary, Request $request): Response
+    public function search(SearchesService $searchService, OxfordDictionary $dictionary, Request $request): Response
     {
-        $entries = [];
         $word = $request->get('q');
-        if ($word) {
-            $entries = $dictionary->entries($word);
-            if (! empty($entries)) {
-                $service->addSearch($word);
+        $entries = [];
+        
+        if (!empty($word)) {
+            $word = strtolower($word);
+    
+            $lemma = $dictionary->lemma($word);
+            if ($lemma) {
+                $word = $lemma->getInflectionOf();
             }
+            
+            $searchService->addSearch($word);
+    
+            $entries = $dictionary->entries($word);
         }
 
         return $this->render('search.html.twig', [
