@@ -1,20 +1,16 @@
 #chartdiv {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    min-height: 400px;
+    max-height: 700px;
 }
 
+
 .page-container {
-    position: relative;
-    min-height: 100vh;
 }
 
 .wrapper {
-    padding-bottom: .5rem;
 }
 
 .footer{
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 2.5rem;
 }

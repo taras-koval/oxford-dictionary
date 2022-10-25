@@ -17,13 +17,12 @@
         {% endblock %}
     </div>
 
-    <div class="wrapper cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        {% block content %}
-        {% endblock %}
-    </div>
-        {% block footer %}
-            {{ include('blocks/_footer.html.twig') }}
-        {% endblock %}
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+        {{ include('blocks/_footer.html.twig') }}
+    {% endblock %}
 </div>
 <!--webpack JS below-->
 {% block javascripts %}
