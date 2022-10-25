@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container p-3 mx-auto">
-        <div class="row">
-            <form class="input-group mt-1" action="/search">
-                <input type="search" id="search" name="q" class="form-control" placeholder="Search definition..."
-                       required/>
-                <button class="btn btn-outline-primary">Search</button>
-            </form>
+    <div class="container p-3 mx-auto mt-4">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <form class="input-group" action="/search">
+                    <input type="search" id="search" name="q" class="form-control" placeholder="Search..."
+                           required/>
+                    <button class="btn btn-outline-primary">Search</button>
+                </form>
+            </div>
         </div>
         {% include 'blocks/_tag_cloud.html.twig' %}
     </div>
