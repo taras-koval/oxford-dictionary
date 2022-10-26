@@ -19,8 +19,7 @@ class OxfordDictionary
         ClientInterface $client,
         EntriesBuilder $entriesBuilder,
         LemmasBuilder $lemmasBuilder,
-    )
-    {
+    ) {
         $this->client = $client;
         $this->entriesBuilder = $entriesBuilder;
         $this->lemmasBuilder = $lemmasBuilder;
