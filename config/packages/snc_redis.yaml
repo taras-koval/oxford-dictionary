@@ -1,0 +1,21 @@
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: "%env(REDIS_URL)%"
+            #dsn: "redis://redis-17298.c11.us-east-1-3.ec2.cloud.redislabs.com:17298"
+            #"localhost:6379"
+            options:
+                parameters:
+                    username: default
+                    password: default
+# Define your clients here. The example below connects to database 0 of the default Redis server.
+#
+# See https://github.com/snc/SncRedisBundle/blob/master/docs/README.md for instructions on
+# how to configure the bundle.
+#
+#        default:
+#            type: phpredis
+#            alias: default
+#            dsn: "%env(REDIS_URL)%"
