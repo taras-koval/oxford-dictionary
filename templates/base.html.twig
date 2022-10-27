@@ -17,8 +17,10 @@
         {% endblock %}
     </div>
 
-    {% block content %}
-    {% endblock %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
     {% block footer %}
         {{ include('blocks/_footer.html.twig') }}

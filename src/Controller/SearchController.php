@@ -21,18 +21,22 @@ class SearchController extends AbstractController
      * @param SearchesRepository $search
      * @return JsonResponse
      */
-    #[Route('/quick_search', name: 'quick_search')]
-    public function quickSearch(Request $request, SearchesRepository $search)
+    #[Route('/quick-search', name: 'quick_search')]
+    public function quickSearch(Request $request, SearchesRepository $search): JsonResponse
     {
         $wordBegin = $request->query->get('wordBegin');
-        if(strlen($wordBegin)>2){
-            return  new JsonResponse([
+        if (strlen($wordBegin) > 2) {
+
+            return new JsonResponse([
                 'status'    => 1,
-                'matches'   => array_column((array) $search->getFastSearchMatchWords($wordBegin), 'word')
+                'matches'   => $search->getFastSearchMatchWords($wordBegin)
             ]);
         }
 
-        return new JsonResponse(['status'    => 0]);
+        return new JsonResponse([
+            'status' => 0,
+            'message'=> 'At least 3 symbols required for search initiation.'
+            ]);
     }
 
     /**

@@ -36,6 +36,7 @@ class SearchesRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $wordBegin
      * @return Searches[] Returns an array of top searched words with same beggining
      */
     public function getFastSearchMatchWords($wordBegin): array
@@ -48,7 +49,7 @@ class SearchesRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->setParameter('wordBegin', $wordBegin . '%')
             ->getQuery()
-            ->getResult();
+            ->getSingleColumnResult();
     }
 
     /**
