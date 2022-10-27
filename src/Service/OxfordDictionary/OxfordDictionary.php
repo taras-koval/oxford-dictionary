@@ -28,17 +28,17 @@ class OxfordDictionary
     /**
      * @param  string  $word
      * @param  string  $lang
-     * @return Entry[]
+     * @return Entry[]|null
      * @throws OxfordDictionaryException
      */
-    public function entries(string $word, string $lang = 'en-us'): array
+    public function entries(string $word, string $lang = 'en-us'): ?array
     {
         try {
             $response = $this->client->get("entries/$lang/$word?fields=definitions%2Cexamples%2Cpronunciations&strictMatch=false");
-            return $this->entriesBuilder->build($response);
+            return !empty($response) ? $this->entriesBuilder->build($response) : null;
         } catch (GuzzleException $e) {
             if ($e->getCode() == '404') {
-                return [];
+                return null;
             }
             
             throw new OxfordDictionaryException($e->getMessage());
@@ -58,7 +58,7 @@ class OxfordDictionary
     {
         try {
             $response = $this->client->get("lemmas/$lang/$word");
-            return $this->lemmasBuilder->build($response);
+            return !empty($response) ? $this->lemmasBuilder->build($response) : null;
         } catch (GuzzleException $e) {
             if ($e->getCode() == '404') {
                 return null;
