@@ -7,10 +7,44 @@
                 <form class="input-group" action="/search">
                     <input type="search" id="search" name="q" class="form-control" placeholder="Search..."
                            required/>
-                    <button class="btn btn-outline-primary">Search</button>
+                    <button class="btn btn-primary">Search</button>
                 </form>
             </div>
         </div>
+
         {% include 'blocks/_tag_cloud.html.twig' %}
+
+        <script>
+            let availableWords = [];
+
+            function getPossibleWords(wordBegin) {
+                $.get("/quick_search?wordBegin=" + wordBegin, function (data) {
+                    if (data.status === 1) {
+                        //console.log(data);
+                        availableWords = data.matches;
+                        $("#search").autocomplete("option", {
+                            source: availableWords
+                        });
+                    } else {
+                        availableWords = [];
+                    }
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                $('#search').on('input', function () {
+                    let possibleWord = $('#search').val();
+                    if (possibleWord.length > 2) {
+                        getPossibleWords(possibleWord);
+                    } else {
+                        availableWords = [];
+                        $("#search").autocomplete({
+                            source: availableWords
+                        });
+                    }
+                });
+            });
+        </script>
     </div>
 {% endblock %}
