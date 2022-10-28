@@ -25,15 +25,15 @@ class SearchController extends AbstractController
         
         if (!empty($word)) {
             $word = strtolower($word);
-    
+            
             $lemma = $dictionary->lemma($word);
+            
             if ($lemma) {
                 $word = $lemma->getInflectionOf();
+                $entries = $dictionary->entries($word);
             }
             
             $searchService->addSearch($word);
-    
-            $entries = $dictionary->entries($word);
         }
 
         return $this->render('search.html.twig', [

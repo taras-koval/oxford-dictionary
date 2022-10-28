@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CacheRepository;
+use App\Repository\ODResponseCacheRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
 
-#[ORM\Entity(repositoryClass: CacheRepository::class)]
-class Cache
+#[ORM\Entity(repositoryClass: ODResponseCacheRepository::class)]
+#[Table(name: 'od_response_cache')]
+class ODResponseCache
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

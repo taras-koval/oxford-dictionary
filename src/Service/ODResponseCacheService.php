@@ -2,23 +2,23 @@
 
 namespace App\Service;
 
-use App\Entity\Cache;
-use App\Repository\CacheRepository;
+use App\Entity\ODResponseCache;
+use App\Repository\ODResponseCacheRepository;
 use App\Service\OxfordDictionary\Client\ClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 
 #[AsDecorator(decorates: ClientInterface::class)]
-class CacheService implements ClientInterface
+class ODResponseCacheService implements ClientInterface
 {
     private ClientInterface $client;
     private EntityManagerInterface $entityManager;
-    private CacheRepository $cacheRepository;
+    private ODResponseCacheRepository $cacheRepository;
     
     public function __construct(
         ClientInterface $client,
         EntityManagerInterface $entityManager,
-        CacheRepository $cacheRepository,
+        ODResponseCacheRepository $cacheRepository,
     ) {
         $this->client = $client;
         $this->entityManager = $entityManager;
@@ -30,9 +30,9 @@ class CacheService implements ClientInterface
         $cache = $this->cacheRepository->findOneBy(['query' => $url]);
         
         if (!isset($cache)) {
-            $cache = new Cache();
+            $cache = new ODResponseCache();
+            $cache->setQuery($url);
             try {
-                $cache->setQuery($url);
                 $cache->setData($this->client->get($url));
             } finally {
                 $this->entityManager->persist($cache);
