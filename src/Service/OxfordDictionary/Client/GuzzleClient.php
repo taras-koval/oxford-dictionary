@@ -25,7 +25,7 @@ class GuzzleClient implements ClientInterface
     /**
      * @throws GuzzleException
      */
-    public function get(string $url)
+    public function get(string $url): ?array
     {
         return json_decode($this->client->get($url)->getBody()->getContents(), true);
     }
