@@ -36,7 +36,7 @@ class SearchController extends AbstractController
         return new JsonResponse([
             'status' => 0,
             'message'=> 'At least 3 symbols required for search initiation.'
-            ]);
+        ]);
     }
 
     /**

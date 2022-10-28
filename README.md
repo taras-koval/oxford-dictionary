@@ -14,4 +14,6 @@ Next commands should be used for webpack:<br><br>
 - Install for <a href="https://redis.io/docs/getting-started/installation/install-redis-on-windows/">Windows</a> <br />
 - Install for <a href="https://redis.io/docs/getting-started/installation/install-redis-on-linux/">Linux</a> <br />
 
-After installation, each time before using App, do not forget to run your Redis server (for Windows - run WSL program <b>start->"WSL"</b>)
+After installation, each time before using App, do not forget to run your Redis server 
+- For Windows - run WSL program <b>start->"WSL"</b>
+- Type <code>redis-server</code> to run server

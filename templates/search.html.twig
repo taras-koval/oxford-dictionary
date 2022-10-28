@@ -6,54 +6,17 @@
             <input type="search" id="search" name="q" class="form-control" placeholder="Search definition..."/>
             <button class="btn btn-primary">Search</button>
         </form>
-
-        <script>
-            let availableWords = [];
-
-            function getPossibleWords(wordBegin) {
-                $.get("/quick_search?wordBegin=" + wordBegin, function (data) {
-                    if (data.status === 1) {
-                        //console.log(data);
-                        availableWords = data.matches;
-                        $("#search").autocomplete("option", {
-                            source: availableWords
-                        });
-                    } else {
-                        availableWords = [];
-                    }
-                });
-            }
-
-            document.addEventListener("DOMContentLoaded", function () {
-
-                $('#search').on('input', function () {
-                    let possibleWord = $('#search').val();
-                    if (possibleWord.length > 2) {
-                        getPossibleWords(possibleWord);
-                    } else {
-                        availableWords = [];
-                        $("#search").autocomplete({
-                            source: availableWords
-                        });
-                    }
-                });
-            });
-        </script>
     </div>
-
-
 
     <div class="container my-4">
         <div class="row">
             <div class="col-4 vertical-center">
-                    <span class="text-primary h3" style="vertical-align: middle !important;">{{ word | title }}</span>
-                <br />
+                <span class="text-primary h3" style="vertical-align: middle !important;">{{ word | title }}</span>
+                <br/>
                 <div id="player_new"></div>
             </div>
         </div>
     </div>
-
-
 
     <div class="container">
 
@@ -68,11 +31,9 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#examples"
                            role="tab">Examples</a>
                     </li>
-
                 </ul>
 
                 <div class="tab-content text-muted">
-
                     <div class="tab-pane active" id="definitions" role="tabpanel">
                         <div class="d-flex">
                             <div class="flex-shrink-0">
@@ -112,31 +73,22 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
 
             </div>
             {% for entry in entries %}
-        {% if loop.first %}
-        {% if entry.pronunciations is defined %}
-
-            {% for pronunciation in entry.pronunciations %}
-            <div id="player_raw" style="display: none;">
-                <audio class="d-block mt-1" controls>
-                    <source src="{{ pronunciation }}" type="audio/mpeg">
-                    Your browser does not support the audio tag.
-                </audio>
-            </div>
-            <script>
-                window.addEventListener('DOMContentLoaded', () => {
-                    $('#player_new').html($("#player_raw").html());
-                    $('#player_raw').html();
-                });
-            </script>
-            {% endfor %}
-        {% endif %}
-        {% endif %}
+                {% if loop.first %}
+                    {% if entry.pronunciations is defined %}
+                        {% for pronunciation in entry.pronunciations %}
+                            <div id="player_raw" style="display: none;">
+                                <audio class="d-block mt-1" controls>
+                                    <source src="{{ pronunciation }}" type="audio/mpeg">
+                                    Your browser does not support the audio tag.
+                                </audio>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
             {% endfor %}
         {% else %}
             <div class="row">

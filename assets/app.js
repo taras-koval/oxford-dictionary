@@ -22,6 +22,7 @@ am4plugins_wordCloud = global.am4plugins_wordCloud = require( "@amcharts/amchart
 am4themes_moonrisekingdom = global.am4themes_moonrisekingdom = require( "@amcharts/amcharts4/themes/moonrisekingdom");
 
 const autocomplete = require("jquery-ui/ui/widgets/autocomplete"); //require( "jquery-ui/ui/widgets/autocomplete" );
+import quickSearch from "./js/quickSearch";
 import 'bootstrap';
 
 global.$ = global.jQuery = require('jquery');

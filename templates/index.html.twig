@@ -14,37 +14,5 @@
 
         {% include 'blocks/_tag_cloud.html.twig' %}
 
-        <script>
-            let availableWords = [];
-
-            function getPossibleWords(wordBegin) {
-                $.get("/quick_search?wordBegin=" + wordBegin, function (data) {
-                    if (data.status === 1) {
-                        //console.log(data);
-                        availableWords = data.matches;
-                        $("#search").autocomplete("option", {
-                            source: availableWords
-                        });
-                    } else {
-                        availableWords = [];
-                    }
-                });
-            }
-
-            document.addEventListener("DOMContentLoaded", function () {
-
-                $('#search').on('input', function () {
-                    let possibleWord = $('#search').val();
-                    if (possibleWord.length > 2) {
-                        getPossibleWords(possibleWord);
-                    } else {
-                        availableWords = [];
-                        $("#search").autocomplete({
-                            source: availableWords
-                        });
-                    }
-                });
-            });
-        </script>
     </div>
 {% endblock %}
