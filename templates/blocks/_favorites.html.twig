@@ -1,0 +1,8 @@
+<div class="my-4">
+    <h3>Favorite words</h3>
+    {% for favorite in favorites %}
+        <a href="/search?q={{ favorite.word.word }}" class="btn btn-outline-primary btn-sm m-1">
+            <span> {{ favorite.word.word }} </span>
+        </a>
+    {% endfor %}
+</div>

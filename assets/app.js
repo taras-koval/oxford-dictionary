@@ -25,13 +25,12 @@ import './js/amcharts/animated';*/
 
 am4core = global.am4core = require("@amcharts/amcharts4/core");
 am4charts = global.am4charts = require("@amcharts/amcharts4/charts");
-am4plugins_wordCloud = global.am4plugins_wordCloud = require( "@amcharts/amcharts4/plugins/wordCloud");
+am4plugins_wordCloud = global.am4plugins_wordCloud = require("@amcharts/amcharts4/plugins/wordCloud");
 //am4themes_animated = global.am4themes_animated = require( "@amcharts/amcharts4/themes/animated");
-am4themes_moonrisekingdom = global.am4themes_moonrisekingdom = require( "@amcharts/amcharts4/themes/moonrisekingdom");
+am4themes_moonrisekingdom = global.am4themes_moonrisekingdom = require("@amcharts/amcharts4/themes/moonrisekingdom");
 
 // start the Stimulus application
 import 'bootstrap';
-
 
 
 //import 'bootstrap/scss/bootstrap.scss';
@@ -40,4 +39,35 @@ import 'bootstrap';
 global.$ = global.jQuery = require('jquery');
 
 
+$("#favorite-star").click(function () {
+    let word = $(this).data('word');
+    if (word) {
+        if ($(this).hasClass('is-favorite')) {
+            $.ajax({
+                type: 'DELETE',
+                url: `/favorites/${word}`,
+                success: function (result) {
 
+                },
+                error: function (result) {
+                    alert(result)
+                }
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: "/favorites",
+                data: {
+                    word: word
+                },
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    alert(result)
+                }
+            });
+        }
+    }
+    $(this).toggleClass('is-favorite');
+});

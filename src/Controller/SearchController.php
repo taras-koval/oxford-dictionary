@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\FavoriteService;
 use App\Service\OxfordDictionary\OxfordDictionary;
 use App\Service\OxfordDictionary\OxfordDictionaryException;
 use App\Service\SearchesService;
@@ -18,26 +19,36 @@ class SearchController extends AbstractController
      * @throws OxfordDictionaryException
      */
     #[Route('/search', name: 'search')]
-    public function search(SearchesService $searchService, OxfordDictionary $dictionary, Request $request): Response
-    {
+    public function search(
+        SearchesService $searchService,
+        OxfordDictionary $dictionary,
+        FavoriteService $favoriteService,
+        Request $request
+    ): Response {
         $word = $request->get('q');
         $entries = [];
-        
-        if (!empty($word)) {
+        $isFavorite = null;
+
+        if (! empty($word)) {
             $word = strtolower($word);
-    
+
             $lemma = $dictionary->lemma($word);
             if ($lemma) {
                 $word = $lemma->getInflectionOf();
             }
-            
+
             $searchService->addSearch($word);
-    
+
             $entries = $dictionary->entries($word);
+        }
+
+        if (! empty($entries)) {
+            $isFavorite = $favoriteService->isFavorite($word);
         }
 
         return $this->render('search.html.twig', [
             'word' => $word,
+            'isFavorite' => $isFavorite,
             'entries' => $entries
         ]);
     }

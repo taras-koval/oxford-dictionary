@@ -6,7 +6,13 @@
             <input type="search" id="search" name="q" class="form-control" placeholder="Search definition..."/>
             <button class="btn btn-outline-primary">Search</button>
         </form>
-        <h3 class="text-primary mt-4">{{ word | title }}</h3>
+        <h3 class="text-primary mt-4">
+            {{ word | title }}
+            {% if isFavorite is not null %}
+                <span class="star {{ isFavorite ? 'is-favorite' }}" id="favorite-star"
+                      data-word="{{ word | title }}" data-toggle="tooltip" data-placement="top" title="Add to my favorite list">★</span>
+            {% endif %}
+        </h3>
         {% if entries is not empty %}
             <div class="mt-3">
                 <ol>

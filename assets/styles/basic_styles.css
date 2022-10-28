@@ -14,3 +14,14 @@
 .footer{
     width: 100%;
 }
+
+.star{
+    color: #9a9a9a;
+    cursor:pointer;
+}
+.star:hover{
+    color: #646464;
+}
+.is-favorite{
+    color:yellow;
+}
