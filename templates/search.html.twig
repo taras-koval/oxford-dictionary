@@ -1,33 +1,103 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <main class="container">
+    <div class="container">
         <form class="input-group mt-5" action="{{ path('search') }}">
             <input type="search" id="search" name="q" class="form-control" placeholder="Search definition..."/>
-            <button class="btn btn-outline-primary">Search</button>
+            <button class="btn btn-primary">Search</button>
         </form>
-        <h3 class="text-primary mt-4">{{ word | title }}</h3>
+    </div>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-4 vertical-center">
+                <span class="text-primary h3" style="vertical-align: middle !important;">{{ word | title }}</span>
+                <br/>
+                <div id="player_new"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
         {% if entries is not empty %}
-            <div class="mt-3">
-                <ol>
-                    {% for entry in entries %}
-                        <li>
-                            {% for definition in entry.definitions %}
-                                <p class="text-dark">{{ definition | title }}</p>
-                            {% endfor %}
-                            {% for pronunciation in entry.pronunciations %}
+            <div class="card-body">
+                <ul class="nav nav-pills nav-success mb-3" role="tablist">
+                    <li class="nav-item waves-effect waves-light" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#definitions"
+                           role="tab">Definitions</a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#examples"
+                           role="tab">Examples</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content text-muted">
+                    <div class="tab-pane active" id="definitions" role="tabpanel">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="ri-checkbox-circle-fill text-success"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-2">
+
+                                {% for entry in entries %} {# printing noun/verb/etc. content #}
+                                    <h5 class="mb-1">{{ entry.lexicalCategory }}</h5>
+                                    <ol class="list-group list-group-flush">
+                                        {% for definition in entry.definitions %}
+                                            <li class="list-group-item py-1 text-dark">{{ definition | title }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="examples" role="tabpanel">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="ri-checkbox-circle-fill text-success"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-2">
+
+                                {% for entry in entries %} {# printing noun/verb/etc. content #}
+                                    <h5 class="mb-1">{{ entry.lexicalCategory }}</h5>
+                                    <ol class="list-group list-group-flush">
+                                        {% for example in entry.examples %}
+                                            <li class="list-group-item py-1 text-dark">{{ example | title }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% for entry in entries %}
+                {% if loop.first %}
+                    {% if entry.pronunciations is defined %}
+                        {% for pronunciation in entry.pronunciations %}
+                            <div id="player_raw" style="display: none;">
                                 <audio class="d-block mt-1" controls>
                                     <source src="{{ pronunciation }}" type="audio/mpeg">
                                     Your browser does not support the audio tag.
                                 </audio>
-                                <audio src=""></audio>
-                            {% endfor %}
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         {% else %}
-            <h5 class="text-muted mt-5">Word not found</h5>
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-muted mt-5">Word not found</h5>
+                </div>
+            </div>
         {% endif %}
-    </main>
+
+    </div>
+
 {% endblock %}
