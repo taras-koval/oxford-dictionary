@@ -36,6 +36,23 @@ class SearchesRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $wordBegin
+     * @return Searches[] Returns an array of top searched words with same beggining
+     */
+    public function getFastSearchMatchWords($wordBegin): array
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->select('p.word')
+            ->where('p.word LIKE :wordBegin')
+            ->orderBy('p.cnt', 'DESC')
+            ->setMaxResults(10)
+            ->setParameter('wordBegin', $wordBegin . '%')
+            ->getQuery()
+            ->getSingleColumnResult();
+    }
+
+    /**
      * Find word in database by name
      *
      * @param string $word
