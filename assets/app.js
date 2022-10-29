@@ -12,6 +12,7 @@ import './styles/basic_styles.css';
 import 'bootstrap/scss/bootstrap.scss';
 import 'jquery-ui/themes/base/autocomplete.css';
 import 'jquery-bootstrap-theme/css/custom-theme/jquery-ui-1.10.3.custom.css';
+import './js/favorites'
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
