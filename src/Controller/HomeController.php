@@ -11,8 +11,11 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class HomeController extends AbstractController
 {
-    public function __construct(private CacheInterface $cache)
+    private CacheInterface $cache;
+    
+    public function __construct(CacheInterface $cache)
     {
+        $this->cache = $cache;
     }
 
     /**

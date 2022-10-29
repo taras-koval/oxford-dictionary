@@ -6,16 +6,18 @@ use App\Entity\Searches;
 use App\Repository\SearchesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class SearchesService
+class SearchService
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SearchesRepository $repository)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SearchesRepository $repository
+    ) {
     }
 
     /**
      * Add new or increment count of existing word
      */
-    public function addSearch(string $word)
+    public function addSearch(string $word): void
     {
         $word = ucfirst(strtolower($word));
 
@@ -32,7 +34,7 @@ class SearchesService
      *
      * @param string $word
      */
-    public function createTag(string $word)
+    public function createTag(string $word): void
     {
         $search = (new Searches())
             ->setWord($word)
@@ -46,7 +48,7 @@ class SearchesService
      *
      * @param Searches $search
      */
-    public function incrementCount(Searches $search)
+    public function incrementCount(Searches $search): void
     {
         $search->incrementCnt();
         $this->entityManager->flush();

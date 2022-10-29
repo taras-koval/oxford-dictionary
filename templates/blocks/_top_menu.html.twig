@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-static-top navbar-dark bg-dark" aria-label="Navigation">
-    <div class="container-fluid">
+    <div class="container">
         <a class="navbar-brand" href="/">Dont be a nerd. Search it.</a>
 
         <div class="navbar-collapse offcanvas-collapse" id="navbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('tag_cloud') }}">Tag Cloud</a>
                 </li>
@@ -11,7 +12,7 @@
                     <a class="nav-link" href="{{ path('favorite_list') }}">Favorites</a>
                 </li>
 
-                <li class="nav-item dropdown">
+                {#<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                        aria-expanded="false">Profile</a>
                     <ul class="dropdown-menu">
@@ -19,15 +20,16 @@
                         <li><a class="dropdown-item" href="#">Search story</a></li>
                         <li><a class="dropdown-item" href="{{path('app_logout')}}">Logout</a></li>
                     </ul>
-                </li>
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin_dashboard') }}">Admin Dashboard</a>
-                    </li>
-                {% endif %}
+                </li>#}
 
             </ul>
+
+            <ul class="navbar-nav">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('admin_dashboard') }}">Admin Dashboard</a></li>
+                {% endif %}
+            </ul>
+
         </div>
     </div>
 </nav>

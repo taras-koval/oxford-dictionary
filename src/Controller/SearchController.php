@@ -6,7 +6,7 @@ use App\Repository\SearchesRepository;
 use App\Service\Favorite\FavoriteService;
 use App\Service\OxfordDictionary\OxfordDictionary;
 use App\Service\OxfordDictionary\OxfordDictionaryException;
-use App\Service\SearchesService;
+use App\Service\SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +47,7 @@ class SearchController extends AbstractController
      */
     #[Route('/search', name: 'search')]
     public function search(
-        SearchesService $searchService,
+        SearchService $searchService,
         FavoriteService $favoriteService,
         OxfordDictionary $dictionary,
         Request $request
@@ -58,7 +58,6 @@ class SearchController extends AbstractController
 
         if (! empty($word)) {
             $word = strtolower($word);
-
             $lemma = $dictionary->lemma($word);
 
             if ($lemma) {
