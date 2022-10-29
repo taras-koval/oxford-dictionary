@@ -77,8 +77,11 @@ class FavoriteController extends AbstractController
     }
 
     #[Route('/favorites/export-as-csv', name: 'export_csv', methods: ['GET'])]
-    public function export(CsvExportService $exportService, FavoriteWordRepository $repository, Request $request): BinaryFileResponse|JsonResponse
-    {
+    public function export(
+        CsvExportService $exportService,
+        FavoriteWordRepository $repository,
+        Request $request
+    ): BinaryFileResponse|JsonResponse {
         $words = $repository->getFavoriteWords();
         if (empty($words)) {
             return new JsonResponse([
