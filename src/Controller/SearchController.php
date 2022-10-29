@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\SearchesRepository;
+use App\Service\Favorite\FavoriteService;
 use App\Service\OxfordDictionary\OxfordDictionary;
 use App\Service\OxfordDictionary\OxfordDictionaryException;
 use App\Service\SearchesService;
@@ -28,14 +29,14 @@ class SearchController extends AbstractController
         if (strlen($wordBegin) > 2) {
 
             return new JsonResponse([
-                'status'    => 1,
-                'matches'   => $search->getFastSearchMatchWords($wordBegin)
+                'status' => 1,
+                'matches' => $search->getFastSearchMatchWords($wordBegin)
             ]);
         }
 
         return new JsonResponse([
             'status' => 0,
-            'message'=> 'At least 3 symbols required for search initiation.'
+            'message' => 'At least 3 symbols required for search initiation.'
         ]);
     }
 
@@ -45,16 +46,21 @@ class SearchController extends AbstractController
      * @throws OxfordDictionaryException
      */
     #[Route('/search', name: 'search')]
-    public function search(SearchesService $searchService, OxfordDictionary $dictionary, Request $request): Response
-    {
+    public function search(
+        SearchesService $searchService,
+        FavoriteService $favoriteService,
+        OxfordDictionary $dictionary,
+        Request $request
+    ): Response {
         $word = $request->get('q');
         $entries = [];
+        $isFavorite = null;
 
-        if (!empty($word)) {
+        if (! empty($word)) {
             $word = strtolower($word);
-            
+
             $lemma = $dictionary->lemma($word);
-            
+
             if ($lemma) {
                 $word = $lemma->getInflectionOf();
                 $entries = $dictionary->entries($word);
@@ -63,9 +69,14 @@ class SearchController extends AbstractController
             $searchService->addSearch($word);
         }
 
+        if (! empty($entries)) {
+            $isFavorite = $favoriteService->isFavorite($word);
+        }
+
         return $this->render('search.html.twig', [
             'word' => $word,
-            'entries' => $entries
+            'entries' => $entries,
+            'isFavorite' => $isFavorite
         ]);
     }
 }

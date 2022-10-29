@@ -12,6 +12,10 @@
         <div class="row">
             <div class="col-4 vertical-center">
                 <span class="text-primary h3" style="vertical-align: middle !important;">{{ word | title }}</span>
+                {% if isFavorite is not null and app.user %}
+                    <span class="star{{ isFavorite ? ' is-favorite' }}" id="favorite-star"
+                          data-word="{{ word | title }}" title="Add to my favorite list">★</span>
+                {% endif %}
                 <br/>
                 <div id="player_new"></div>
             </div>

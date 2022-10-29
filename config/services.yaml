@@ -6,6 +6,7 @@
 parameters:
     appId: '%env(APP_ID)%'
     appKey: '%env(APP_KEY)%'
+    appUrl: '%env(APP_URL)%'
     
 services:
     # default configuration for services in *this* file
@@ -28,4 +29,7 @@ services:
     App\Service\OxfordDictionary\Client\ClientInterface:
         class: 'App\Service\OxfordDictionary\Client\GuzzleClient'
         arguments: ['%appId%', '%appKey%']
-    
+
+    App\Service\Favorite\Exports\CsvExportService:
+        bind:
+            $url: '%appUrl%'

@@ -3,3 +3,40 @@
     min-height: 400px;
     max-height: 700px;
 }
+
+.star {
+    color: #9a9a9a;
+    cursor: pointer;
+    font-size: 20pt;
+}
+
+.star:hover {
+    color: #646464;
+}
+
+.is-favorite {
+    color: yellow;
+}
+
+.btn-icon {
+    margin-left: 5px;
+}
+
+.favorites a {
+    position: relative;
+}
+
+.favorites a:hover > iconify-icon {
+    display: block;
+}
+
+.btn-remove {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 14pt;
+    color: gray;
+    background: #ffffff;
+    border-radius: 50%;
+}
