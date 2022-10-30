@@ -114,7 +114,7 @@ class AppFixtures extends Fixture
         ];
         for ($i = 0; $i < 99; $i++) {
             $product = new Searches();
-            $product->setWord($wordsArray[$i] );
+            $product->setWord($wordsArray[$i]);
             $product->setCnt(mt_rand(0, 500));
             $manager->persist($product);
         }

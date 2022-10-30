@@ -27,19 +27,19 @@ class ODResponseCacheService implements ClientInterface
     
     public function get(string $url): ?array
     {
-        $cache = $this->cacheRepository->findOneBy(['query' => $url]);
+        $responseCache = $this->cacheRepository->findOneBy(['query' => $url]);
         
-        if (!isset($cache)) {
-            $cache = new ODResponseCache();
-            $cache->setQuery($url);
+        if (!isset($responseCache)) {
+            $responseCache = new ODResponseCache();
+            $responseCache->setQuery($url);
             try {
-                $cache->setData($this->client->get($url));
+                $responseCache->setData($this->client->get($url));
             } finally {
-                $this->entityManager->persist($cache);
+                $this->entityManager->persist($responseCache);
                 $this->entityManager->flush();
             }
         }
         
-        return $cache->getData();
+        return $responseCache->getData();
     }
 }
